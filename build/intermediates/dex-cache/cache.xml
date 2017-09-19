@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="false"
+        jar="C:\Users\lihongjiang\.gradle\caches\modules-2\files-2.1\com.amap.api\3dmap\5.3.0\134242459debbdb0f08856d8036e40b38f8d772b\3dmap-5.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="134242459debbdb0f08856d8036e40b38f8d772b">
+        <dex dex="C:\Users\lihongjiang\Documents\GitHub\gaodeng\app\build\intermediates\pre-dexed\debug\3dmap-5.3.0_b7edd0dc5bf06a66d6e929d64070727e092d4461.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\lihongjiang\.gradle\caches\modules-2\files-2.1\com.amap.api\location\3.5.0\a02816310bcf897ef35496950110a65b495574a7\location-3.5.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="a02816310bcf897ef35496950110a65b495574a7">
+        <dex dex="C:\Users\lihongjiang\Documents\GitHub\gaodeng\app\build\intermediates\pre-dexed\debug\location-3.5.0_fd6b410a01ffd6b1dd7911f7175620dfff1ad429.jar" />
+    </item>
+    <item
+        is-multidex="false"
+        jar="C:\Users\lihongjiang\.gradle\caches\modules-2\files-2.1\com.amap.api\search\5.3.0\f4c0c42f0d726bb8a1d82e0c3c06897b00ff9830\search-5.3.0.jar"
+        jumboMode="false"
+        optimize="true"
+        revision="26.0.0"
+        sha1="f4c0c42f0d726bb8a1d82e0c3c06897b00ff9830">
+        <dex dex="C:\Users\lihongjiang\Documents\GitHub\gaodeng\app\build\intermediates\pre-dexed\debug\search-5.3.0_07e6e7b05f0e40e042a655c2e3d46f5f1cadf781.jar" />
+    </item>
+
+</items>
