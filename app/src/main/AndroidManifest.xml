@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.amap.location.demo">
+    package="com.supets.cloudpet">
 
     //地图包、搜索包需要的基础权限
     <!--允许程序打开网络套接字-->
@@ -61,7 +61,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name="com.supets.gaodeng.MapActivity">
+        <activity android:name="com.supets.gaodeng.LocationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -72,7 +72,7 @@
 
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="574957b3918dad56093fecb1cf3aab16" />
+            android:value="716a544afe554e5fcec761e066cf68eb" />
         <!-- 定位需要的服务 -->
         <service android:name="com.amap.api.location.APSService" />
 

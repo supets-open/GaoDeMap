@@ -15,7 +15,7 @@ import android.os.Build;
 import android.provider.Settings;
 import android.view.KeyEvent;
 
-import com.amap.location.demo.R;
+import com.supets.cloudpet.R;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;

@@ -4,7 +4,7 @@ android {
     compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
-        applicationId "com.amap.location.demo"
+        applicationId "com.supets.cloudpet"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 1
@@ -22,10 +22,10 @@ android {
          * demo中只是一个示例，使用时请根据实际情况进行配置
          */
         debug {
-            signingConfig.storeFile file('/test.keystore')
-            signingConfig.keyAlias "lihongjiang"
-            signingConfig.storePassword "lihongjiang"
-            signingConfig.keyPassword "lihongjiang"
+            signingConfig.storeFile file('/cloudpet.keystore')
+            signingConfig.keyAlias "supetsandroid"
+            signingConfig.storePassword "xtxXTX123!@#"
+            signingConfig.keyPassword "xtxXTX123!@#"
             zipAlignEnabled true
         }
 

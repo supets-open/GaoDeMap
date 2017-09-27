@@ -6,7 +6,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.location.demo.R;
+import com.supets.cloudpet.R;
 
 public class LocationActivity extends BaseLocationActivity {
 

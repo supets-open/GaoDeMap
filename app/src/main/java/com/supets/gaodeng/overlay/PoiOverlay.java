@@ -12,7 +12,7 @@ import com.amap.api.maps.model.LatLngBounds;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.services.core.PoiItem;
-import com.amap.location.demo.R;
+import com.supets.cloudpet.R;
 
 import java.util.ArrayList;
 import java.util.List;

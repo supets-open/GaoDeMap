@@ -26,13 +26,15 @@ import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
 import com.amap.api.services.core.LatLonPoint;
 import com.amap.api.services.core.PoiItem;
+import com.amap.api.services.geocoder.GeocodeAddress;
+import com.amap.api.services.geocoder.GeocodeQuery;
 import com.amap.api.services.geocoder.GeocodeResult;
 import com.amap.api.services.geocoder.GeocodeSearch;
 import com.amap.api.services.geocoder.RegeocodeQuery;
 import com.amap.api.services.geocoder.RegeocodeResult;
 import com.amap.api.services.poisearch.PoiResult;
 import com.amap.api.services.poisearch.PoiSearch;
-import com.amap.location.demo.R;
+import com.supets.cloudpet.R;
 import com.supets.gaodeng.map.AddressInfo;
 import com.supets.gaodeng.map.MapAdapter;
 import com.supets.gaodeng.overlay.PoiOverlay;
@@ -162,6 +164,8 @@ public class MapActivity extends BaseLocationActivity {
             }
         });//手动移动地图监听 （2）
 
+
+        geoSearch("北京","010");
     }
 
     /**
@@ -292,6 +296,9 @@ public class MapActivity extends BaseLocationActivity {
 
 
     protected void doSearchQuery2(final LatLonPoint mCurrentPoint) {
+
+
+
         if (poiOverlay == null) {
             poiOverlay = new PoiOverlay(mapView.getMap(), this);
         }
@@ -422,6 +429,127 @@ public class MapActivity extends BaseLocationActivity {
                 }
             }
         });
+    }
+
+
+    //坐标转地址
+    public void geoSearch(final LatLonPoint mCurrentPoint){
+        GeocodeSearch mGeocoderSearch = new GeocodeSearch(this);
+        mGeocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+                //     if (rCode == 0) {
+                if (regeocodeResult != null && regeocodeResult.getRegeocodeAddress() != null &&
+                        regeocodeResult.getRegeocodeAddress().getFormatAddress() != null) {
+                    mAdapter.data.clear();
+                    mAdapter.data.add(new AddressInfo(
+                            mCurrentPoint,
+                            regeocodeResult.getRegeocodeAddress().getFormatAddress()));
+                    mAdapter.notifyDataSetChanged();
+
+                    mCenterMarker.remove();
+                    MarkerOptions mMarkerOptions = new MarkerOptions();
+                    mMarkerOptions.draggable(false);//可拖放性
+                    mMarkerOptions.icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_launcher_round));
+                    mCenterMarker = mapView.getMap().addMarker(mMarkerOptions);
+                    mCenterMarker.setPositionByPixels(mapView.getWidth() >> 1, mapView.getHeight() >> 1);
+                    mCenterMarker.showInfoWindow();
+
+                    mCenterMarker.setSnippet(regeocodeResult.getRegeocodeAddress().getFormatAddress());
+                    mCenterMarker.showInfoWindow();
+
+//                    crop();
+
+                    String mType = "汽车服务|汽车销售|汽车维修|摩托车服务|餐饮服务|购物服务|生活服务|体育休闲服务|医疗保健服务|住宿服务|风景名胜|商务住宅|政府机构及社会团体|科教文化服务|交通设施服务|金融保险服务|公司企业|道路附属设施|地名地址信息|公共设施";
+
+                    PoiSearch.Query mPoiQuery = new PoiSearch.Query("", mType,
+                            regeocodeResult.getRegeocodeAddress().getCityCode());
+                    mPoiQuery.setPageSize(20);// 设置每页最多返回多少条poiitem
+                    mPoiQuery.setPageNum(0);//设置查第一页
+                    PoiSearch poiSearch = new PoiSearch(MapActivity.this, mPoiQuery);
+                    poiSearch.setOnPoiSearchListener(new PoiSearch.OnPoiSearchListener() {
+                        @Override
+                        public void onPoiSearched(PoiResult poiResult, int i) {
+//                            if (poiOverlay != null) {
+//                                poiOverlay.removeFromMap();
+//                            }
+//
+//                            poiOverlay.setPois(poiResult.getPois());
+//                            poiOverlay.addToMap();
+
+                            for (PoiItem item : poiResult.getPois()) {
+                                AddressInfo info = new AddressInfo(
+                                        item.getLatLonPoint(),
+                                        item.getProvinceName()
+                                                + item.getCityName()
+                                                + item.getAdName()
+                                                + item.getSnippet());
+                                info.name = item.getTitle();
+
+//                                PoiBean bean=new PoiBean();
+//                                bean.setTitleName(poiItem.getTitle());
+//                                bean.setCityName(poiItem.getCityName());
+//                                bean.setAd(poiItem.getAdName());
+//                                bean.setSnippet(poiItem.getSnippet());
+//                                bean.setPoint(poiItem.getLatLonPoint());
+//                                Log.e("yufs",""+poiItem.getTitle()+","+poiItem.getProvinceName()+","
+//                                        +poiItem.getCityName()+","
+//                                        +poiItem.getAdName()+","//区
+//                                        +poiItem.getSnippet()+","
+//                                        +poiItem.getLatLonPoint()+"\n");
+
+                                mAdapter.data.add(info);
+                            }
+
+                            mAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onPoiItemSearched(PoiItem poiItem, int i) {
+
+                        }
+                    });//设置数据返回的监听器 (5)
+                    //设置周边搜索的中心点以及区域
+                    poiSearch.setBound(new PoiSearch.SearchBound(mCurrentPoint, 1500, true));
+                    poiSearch.searchPOIAsyn();//开始搜索
+                } else {
+                    //  ToastUtil.show(mContext, R.string.no_result);
+                }
+                //   } else {
+                //  ToastUtil.show(mContexts, rCode);
+                //  }
+            }
+
+            @Override
+            public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+            }
+        });
+        // 第一个参数表示一个Latlng，第二参数表示范围多少米，第三个参数表示是火系坐标系还是GPS原生坐标系
+        RegeocodeQuery query = new RegeocodeQuery(mCurrentPoint, 200, GeocodeSearch.AMAP);
+        mGeocoderSearch.getFromLocationAsyn(query);// 设置同步逆地理编码请求
+
+    }
+
+    //地址转坐标
+    public void geoSearch(final String name,String cityCode){
+        GeocodeSearch mGeocoderSearch = new GeocodeSearch(this);
+        mGeocoderSearch.setOnGeocodeSearchListener(new GeocodeSearch.OnGeocodeSearchListener() {
+            @Override
+            public void onRegeocodeSearched(RegeocodeResult regeocodeResult, int i) {
+
+            }
+
+            @Override
+            public void onGeocodeSearched(GeocodeResult geocodeResult, int i) {
+
+                for (GeocodeAddress address:geocodeResult.getGeocodeAddressList()){
+                    System.out.println(address.getLatLonPoint().toString());
+                }
+            }
+        });
+        GeocodeQuery query = new GeocodeQuery(name, cityCode);
+        mGeocoderSearch.getFromLocationNameAsyn(query);
     }
 
 }
